@@ -68,8 +68,7 @@ function AppContent() {
         dark ? "bg-gray-900 text-gray-100" : "bg-[#eef0f5] text-gray-800"
       }`}
     >
-      <Navbar />
-      <Toast />
+      <Navbar navigate={navigate} />      <Toast />
 
       <div className="flex">
         {showSidebar && (
