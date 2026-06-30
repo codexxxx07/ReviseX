@@ -32,7 +32,7 @@ export default function Signup({ navigate }) {
             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-4 transition-all duration-300 ${
               dark
                 ? "bg-indigo-600 text-white shadow-[3px_3px_8px_rgba(0,0,0,0.3)]"
-                : "bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-[3px_3px_8px_#b8b9be,-3px_-3px_8px_#ffffff]"
+                : "bg-linear-to-br from-indigo-500 to-purple-600 text-white shadow-[3px_3px_8px_#b8b9be,-3px_-3px_8px_#ffffff]"
             }`}>
               R
             </div>
