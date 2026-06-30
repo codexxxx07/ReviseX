@@ -1,19 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "../context/themeContext";
 
-// Simple global array/state simulation for display purposes 
-// (or you can connect this to your global AppProvider state)
 export default function Toast({ message = "Action successful!", type = "success", onClose }) {
   const { dark } = useTheme();
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (onClose) {
-      const timer = setTimeout(onClose, 3000);
-      return () => clearTimeout(timer);
-    }
+    // Automatically hide the toast after 3 seconds no matter what
+    const timer = setTimeout(() => {
+      setVisible(false);
+      if (onClose) onClose();
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, [onClose]);
 
-  if (!message) return null;
+  // If there is no message, or the 3 seconds are up, don't show anything
+  if (!message || !visible) return null;
 
   return (
     <div className="fixed top-5 right-5 z-50 animate-fade-in">
@@ -37,14 +40,15 @@ export default function Toast({ message = "Action successful!", type = "success"
         
         <p className="text-sm font-medium tracking-wide">{message}</p>
         
-        {onClose && (
-          <button
-            onClick={onClose}
-            className="ml-2 text-xs font-bold opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
-          >
-            ✕
-          </button>
-        )}
+        <button
+          onClick={() => {
+            setVisible(false);
+            if (onClose) onClose();
+          }}
+          className="ml-2 text-xs font-bold opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
+        >
+          ✕
+        </button>
       </div>
     </div>
   );
