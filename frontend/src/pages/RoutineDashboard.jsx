@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeContext";
 import { useApp } from "../context/appContext";
 import { routineData } from "../utils/mockData";
@@ -37,8 +38,9 @@ function GoalItem({ goal, onToggle }) {
   );
 }
 
-export default function RoutineDashboard({ navigate }) {
+export default function RoutineDashboard() {
   const { dark } = useTheme();
+  const navigate = useNavigate();
   const { goals, setGoals, toggleGoal, addToast } = useApp();
   const [routine] = useState(routineData);
 

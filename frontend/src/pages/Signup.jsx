@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useTheme } from "../context/themeContext";
 import { useApp } from "../context/appContext";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 
-export default function Signup({ navigate }) {
+export default function Signup() {
   const { dark } = useTheme();
+  const navigate = useNavigate();
   const { addToast } = useApp();
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -92,12 +94,12 @@ export default function Signup({ navigate }) {
               dark ? "text-gray-400" : "text-gray-500"
             }`}>
               Already have an account?{" "}
-              <button
-                onClick={() => navigate("/login")}
+              <Link
+                to="/login"
                 className="text-indigo-500 hover:text-indigo-400 font-medium transition-colors"
               >
                 Login
-              </button>
+              </Link>
             </p>
           </div>
         </div>

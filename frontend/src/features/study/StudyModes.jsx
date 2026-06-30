@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/themeContext";
 import { useApp } from "../../context/appContext";
 import { studyModes } from "../../utils/mockData";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 
-export default function StudyModes({ navigate }) {
+export default function StudyModes() {
   const { dark } = useTheme();
+  const navigate = useNavigate();
   const { addToast } = useApp();
   const [selected, setSelected] = useState(null);
 

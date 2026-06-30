@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeContext";
 import Button from "./ui/Button";
 
@@ -9,9 +10,32 @@ const links = [
   { label: "Study Modes", path: "/study-modes" },
 ];
 
-export default function Navbar({ navigate }) {
+export default function Navbar() {
   const { dark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinkClass = ({ isActive }) =>
+    `px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 relative ${
+      isActive
+        ? dark
+          ? "bg-indigo-600/20 text-indigo-400 font-bold shadow-[inset_2px_2px_6px_rgba(0,0,0,0.25)]"
+          : "bg-white/70 text-indigo-600 font-bold shadow-[inset_2px_2px_6px_#d1d9e6,inset_-2px_-2px_6px_#ffffff]"
+        : dark
+          ? "text-gray-300 hover:text-gray-100 hover:bg-gray-800"
+          : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
+    }`;
+
+  const mobileNavLinkClass = ({ isActive }) =>
+    `block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+      isActive
+        ? dark
+          ? "bg-indigo-600/20 text-indigo-400 font-bold shadow-[inset_2px_2px_6px_rgba(0,0,0,0.25)]"
+          : "bg-white/70 text-indigo-600 font-bold shadow-[inset_2px_2px_6px_#d1d9e6,inset_-2px_-2px_6px_#ffffff]"
+        : dark
+          ? "text-gray-300 hover:text-gray-100 hover:bg-gray-800"
+          : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
+    }`;
 
   return (
     <nav
@@ -25,8 +49,9 @@ export default function Navbar({ navigate }) {
         <div className="flex items-center justify-between h-16 md:h-20">
           
           {/* Logo */}
-          <button
-            onClick={() => { navigate("/"); setMobileOpen(false); }}
+          <NavLink
+            to="/"
+            onClick={() => setMobileOpen(false)}
             className="flex items-center gap-2 group"
           >
             <div
@@ -45,23 +70,18 @@ export default function Navbar({ navigate }) {
             >
               Revise<span className="text-indigo-500 font-extrabold">X</span>
             </span>
-          </button>
+          </NavLink>
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-1.5 bg-gray-500/5 p-1 rounded-2xl border border-gray-500/10">
             {links.map((link) => (
-              <button
+              <NavLink
                 key={link.path}
-                onClick={() => navigate(link.path)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                  dark
-                    ? "text-gray-300 hover:text-gray-100 hover:bg-gray-800"
-                    : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
-                }`}
+                to={link.path}
+                className={navLinkClass}
               >
-                <span>{link.label}</span>
-                <span className="absolute bottom-1.5 left-4 right-4 h-0.5 bg-indigo-500 transform scale-x-0 transition-transform duration-200 origin-left group-hover/link:scale-x-100" />
-              </button>
+                {link.label}
+              </NavLink>
             ))}
           </div>
 
@@ -133,17 +153,14 @@ export default function Navbar({ navigate }) {
           }`}
         >
           {links.map((link) => (
-            <button
+            <NavLink
               key={link.path}
-              onClick={() => { navigate(link.path); setMobileOpen(false); }}
-              className={`block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                dark
-                  ? "text-gray-300 hover:text-gray-100 hover:bg-gray-800"
-                  : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
-              }`}
+              to={link.path}
+              onClick={() => setMobileOpen(false)}
+              className={mobileNavLinkClass}
             >
               {link.label}
-            </button>
+            </NavLink>
           ))}
           <div className="flex gap-2 pt-2">
             <Button

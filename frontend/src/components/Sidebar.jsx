@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useTheme } from "../context/themeContext";
 
 const sidebarLinks = [
@@ -8,8 +9,19 @@ const sidebarLinks = [
   { path: "/gamification", label: "🏆 Gamification", icon: "🏆" },
 ];
 
-export default function Sidebar({ navigate, currentPath, collapsed, setCollapsed }) {
+export default function Sidebar({ collapsed, setCollapsed }) {
   const { dark } = useTheme();
+
+  const linkClass = ({ isActive }) =>
+    `flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+      isActive
+        ? dark
+          ? "bg-indigo-600/20 text-indigo-400 font-bold shadow-[inset_2px_2px_6px_rgba(0,0,0,0.25)]"
+          : "bg-white/70 text-indigo-600 font-bold shadow-[inset_2px_2px_6px_#d1d9e6,inset_-2px_-2px_6px_#ffffff]"
+        : dark
+          ? "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50"
+          : "text-gray-500 hover:text-gray-700 hover:bg-white/40"
+    }`;
 
   return (
     <>
@@ -43,27 +55,17 @@ export default function Sidebar({ navigate, currentPath, collapsed, setCollapsed
         }`}
       >
         <div className="flex flex-col gap-1 p-3">
-          {sidebarLinks.map((link) => {
-            const active = currentPath === link.path;
-            return (
-              <button
-                key={link.path}
-                onClick={() => { navigate(link.path); setCollapsed(true); }}
-                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                  active
-                    ? dark
-                      ? "bg-indigo-600/20 text-indigo-400 shadow-[inset_2px_2px_6px_rgba(0,0,0,0.2)]"
-                      : "bg-white/70 text-indigo-600 shadow-[inset_2px_2px_6px_#d1d9e6,inset_-2px_-2px_6px_#ffffff]"
-                    : dark
-                      ? "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50"
-                      : "text-gray-500 hover:text-gray-700 hover:bg-white/40"
-                }`}
-              >
-                <span className="text-lg">{link.icon}</span>
-                {!collapsed && <span className="md:inline">{link.label}</span>}
-              </button>
-            );
-          })}
+          {sidebarLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              onClick={() => setCollapsed(true)}
+              className={linkClass}
+            >
+              <span className="text-lg">{link.icon}</span>
+              {!collapsed && <span className="md:inline">{link.label}</span>}
+            </NavLink>
+          ))}
         </div>
       </aside>
     </>
