@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../context/themeContext";
 import { useApp } from "../context/appContext";
 import { routineData } from "../utils/mockData";
@@ -44,9 +44,11 @@ export default function RoutineDashboard({ navigate }) {
 
   const displayGoals = goals.length > 0 ? goals : routine.goals;
 
-  if (!displayGoals.some((g) => g.id === goals[0]?.id)) {
-    setGoals(routine.goals);
-  }
+  useEffect(() => {
+    if (goals.length === 0) {
+      setGoals(routine.goals);
+    }
+  }, [goals.length, routine.goals, setGoals]);
 
   const completedCount = displayGoals.filter((g) => g.done).length;
   const totalCount = displayGoals.length;
